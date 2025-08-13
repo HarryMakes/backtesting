@@ -11,6 +11,7 @@ FetchContent_MakeAvailable(Catch2)
 
 add_executable(unit_tests
         test_data_fetcher.cpp
+        test_strategy.cpp
 )
 target_link_libraries(
         unit_tests

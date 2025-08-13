@@ -1,7 +1,7 @@
 message(STATUS "Building and installing library.")
 
 add_library(backtester
-        STATIC data_fetcher.cpp
+        STATIC data_fetcher.cpp strategy.cpp
 )
 
 set_target_properties(backtester PROPERTIES

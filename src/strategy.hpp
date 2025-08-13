@@ -8,16 +8,21 @@ using namespace std;
 enum class Sig {
     Buy,
     Sell,
-    Hold
+    Hold,
 };
 
 class MovingAvgStrategy {
     vector<double> prices_;
-    int short_period_, long_period_;
+    bool check_buy_ = false, check_sell_ = false;
+    long short_period_, long_period_;
     double prev_short_ma_ = 0., prev_long_ma_ = 0.;
+    long golden_cross_inds_[2] = {-1,-1}, death_cross_inds_[2] = {-1,-1};
+    double max_closing_price_ = 0., min_closing_price_ = 0.;
 public:
-    MovingAvgStrategy(int short_period, int long_period);
-    Sig genSignal(const OhlcDatum& candle);
+    MovingAvgStrategy(long short_period, long long_period);
+    Sig genSignal(const OhlcDatum& datum);
+private:
+    double findSma(long period);
 };
 
 #endif // STRATEGY_HPP

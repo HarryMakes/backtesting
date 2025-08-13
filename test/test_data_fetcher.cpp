@@ -6,7 +6,7 @@ TEST_CASE("DataFetcher::fetchOHLC fetches correct data for BTCUSD with interval 
     DataFetcher dataFetcher;
 
     string pair{"XXBTZUSD"};
-    string interval{"60"};
+    string interval{"1440"};
 
     dataFetcher.fetchOHLC(pair, interval, true);
     const auto json_p = dataFetcher.getJsonPtr();
