@@ -23,7 +23,7 @@ void DataFetcher::fetchOHLC(const string& pair, const string& interval, bool sto
     if (json.contains("error") && !json["error"].empty()) {
         spdlog::warn("JSON API responded with error {}", json["error"].dump());
     } else {
-        saveToCsv(json, pair);
+        saveToCsv(json, pair, interval);
     }
     if (store_json) {
         if (json_p != nullptr) {
@@ -38,8 +38,8 @@ size_t DataFetcher::writeCallback(void* contents, size_t size, size_t nmemb, str
     return size * nmemb;
 }
 
-void DataFetcher::saveToCsv(const nlohmann::json& json, const string& pair) {
-    const string outfile(pair + ".csv");
+void DataFetcher::saveToCsv(const nlohmann::json& json, const string& pair, const string& interval) {
+    const string outfile(pair + "_" + interval + ".csv");
     ofstream outf(outfile);
     if (!outf.is_open()) {
         spdlog::error("Cannot open outfile {}", outfile);
@@ -52,5 +52,6 @@ void DataFetcher::saveToCsv(const nlohmann::json& json, const string& pair) {
              << datum[4].get<string>() << "," << datum[5].get<string>() << ","
              << datum[6].get<string>() << "," << datum[7].get<long>() << endl;
     }
+    outf.close();
     spdlog::info("Data written to outfile {}", outfile);
 }

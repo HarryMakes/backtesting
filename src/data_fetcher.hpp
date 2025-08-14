@@ -22,7 +22,7 @@ public:
 private:
     nlohmann::json* json_p = nullptr;
     static size_t writeCallback(void* contents, size_t size, size_t nmemb, string* data);
-    void saveToCsv(const nlohmann::json& json, const string& outfile);
+    void saveToCsv(const nlohmann::json& json, const string& pair, const string& interval);
 };
 
 #endif // DATA_FETCHER_HPP
