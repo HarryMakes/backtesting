@@ -46,7 +46,7 @@ void DataFetcher::saveToCsv(const nlohmann::json& json, const string& pair, cons
         return;
     }
     outf << "Time,Open,High,Low,Close,VWAP,Volume,Count" << endl;
-    for (const auto& datum : json["result"][pair]) {
+    for (const auto& datum : json["result"].front()) {
         outf << datum[0].get<long>() << "," << datum[1].get<string>() << ","
              << datum[2].get<string>() << "," << datum[3].get<string>() << ","
              << datum[4].get<string>() << "," << datum[5].get<string>() << ","
