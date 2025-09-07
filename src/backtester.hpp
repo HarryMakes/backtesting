@@ -10,7 +10,7 @@ using namespace std;
 class Backtester {
     vector<OhlcDatum> ohlc_data_;
     vector<double> returns_;
-    double cash_, position_;
+    double cash_, position_ = 0.;
     double portfolio_value_ = 0.;
     double initial_cash_, fee_rate_;
     double peak_, max_drawdown_;

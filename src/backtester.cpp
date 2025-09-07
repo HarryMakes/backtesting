@@ -76,6 +76,8 @@ void Backtester::updatePortfolio(const OhlcDatum& datum) {
 }
 
 void Backtester::logMetrics() const {
+    spdlog::info("Cash: {:.2f}, Position: {:.2f}, Final Closing Price: {:.2f}",
+                 cash_, position_, ohlc_data_.rbegin()->close);
     const double mean_return = accumulate(returns_.begin(), returns_.end(), 0.) / returns_.size();
     double variance = 0.;
     for (const auto& ret : returns_) {

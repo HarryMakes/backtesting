@@ -14,22 +14,14 @@ MovingAvgStrategy::MovingAvgStrategy(long short_period, long long_period)
     }
 }
 
-Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
-    // Generate signal on the last read day.
-    prices_.push_back(datum.close);
+void MovingAvgStrategy::updateIndicators(const OhlcDatum& datum) {
     const long curr_ind = prices_.size();
 
-    double short_ma = findSma(short_period_);
-    double long_ma = findSma(long_period_);
+    short_ma_ = findSma(short_period_);
+    long_ma_ = findSma(long_period_);
 #ifdef IS_DEBUG
-    cout << "- [" << datum.time << "] $" << datum.close << ": short_ma=$" << short_ma << " long_ma=$" << long_ma << endl;
+    cout << "- [" << datum.time << "] $" << datum.close << ": short_ma_=$" << short_ma_ << " long_ma_=$" << long_ma_ << endl;
 #endif // IS_DEBUG
-
-    Sig sig = Sig::Hold;
-    // If long_period has not passed, just hold.
-    if (curr_ind < long_period_) {
-        return sig;
-    }
 
     // Tb1 = Current golden cross
     // Tb2 = Current death cross
@@ -37,7 +29,7 @@ Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
     // Ts1 = Current death cross
     // Ts2 = Current golden cross
     // Ts3 = Next death cross
-    if (short_ma > long_ma && prev_short_ma_ < prev_long_ma_) {
+    if (short_ma_ > long_ma_ && prev_short_ma_ < prev_long_ma_) {
         golden_cross_inds_[0] = golden_cross_inds_[1];
         golden_cross_inds_[1] = curr_ind;
         // If this is Tb3 where (Tb3-Tb2)<(Tb2-Tb1)/2, then check high price to Buy.
@@ -48,7 +40,7 @@ Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
                 check_buy_ = false;
         }
     }
-    else if (short_ma < long_ma && prev_short_ma_ > prev_long_ma_) {
+    else if (short_ma_ < long_ma_ && prev_short_ma_ > prev_long_ma_) {
         death_cross_inds_[0] = death_cross_inds_[1];
         death_cross_inds_[1] = curr_ind;
         // If this is Ts3 where (Ts3-Ts2)<(Ts2-Ts1)/2, then check low price to Sell.
@@ -59,8 +51,8 @@ Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
                 check_sell_ = false;
         }
     }
-    prev_short_ma_ = short_ma;
-    prev_long_ma_ = long_ma;
+    prev_short_ma_ = short_ma_;
+    prev_long_ma_ = long_ma_;
 
     // Find the max_closing_price between Tb1 and Tb2.
     if (death_cross_inds_[1] - golden_cross_inds_[1] > 0 && datum.close > max_closing_price_) {
@@ -70,7 +62,20 @@ Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
     if (golden_cross_inds_[1] - death_cross_inds_[1] > 0 && datum.close < min_closing_price_) {
         min_closing_price_ = datum.close;
     }
-    
+}
+
+Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
+    // Generate signal on the last read day.
+    prices_.push_back(datum.close);
+
+    Sig sig = Sig::Hold;
+    // If long_period has not passed, just hold.
+    if (prices_.size() < long_period_) {
+        return sig;
+    }
+
+    updateIndicators(datum);
+
     // If price reaches max_closing_price after Tb3, then Buy.
     if (check_buy_ && datum.open >= max_closing_price_) {
         sig = Sig::Buy;
