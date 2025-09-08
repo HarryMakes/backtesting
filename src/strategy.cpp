@@ -7,8 +7,18 @@
 #endif // IS_DEBUG
 using namespace std;
 
+const string Strategy::name = "base";
+const string MovingAvgStrategy::name = "moving_avg";
+
+double Strategy::findSma(long period) {
+    // Find the SMA value on the last read day.
+    auto start = prices_.end() - period;    // Itor
+    return accumulate(start, prices_.end(), 0.) / period;
+}
+
 MovingAvgStrategy::MovingAvgStrategy(long short_period, long long_period)
     : short_period_(short_period), long_period_(long_period) {
+    resetState();
     if (short_period <= 0 || long_period <= 0 || short_period >= long_period) {
         spdlog::error("Invalid Moving Avg periods");
     }
@@ -88,10 +98,4 @@ Sig MovingAvgStrategy::genSignal(const OhlcDatum& datum) {
     }
 
     return sig;
-}
-
-double MovingAvgStrategy::findSma(long period) {
-    // Find the SMA value on the last read day.
-    auto start = prices_.end() - period;    // Itor
-    return accumulate(start, prices_.end(), 0.) / period;
 }

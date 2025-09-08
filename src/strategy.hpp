@@ -13,34 +13,27 @@ enum class Sig {
 
 class Strategy {
 public:
+    static const string name;
     virtual ~Strategy() = default;
     virtual void updateIndicators(const OhlcDatum& datum) = 0;
     virtual Sig genSignal(const OhlcDatum& datum) = 0;
     virtual void resetState() {};
-    static string getName() { return "BaseStrategy"; };
+    virtual string getName() = 0;
+protected:
+    vector<double> prices_, volumes_;
+    double findSma(long period);
 };
 
 class MovingAvgStrategy : public Strategy {
-    vector<double> prices_, volumes_;
-    bool check_buy_ = false, check_sell_ = false;
-    long short_period_, long_period_;
-    double short_ma_ = 0., long_ma_ = 0.;
-    double prev_short_ma_ = 0., prev_long_ma_ = 0.;
-    long golden_cross_inds_[2] = {-1,-1}, death_cross_inds_[2] = {-1,-1};
-    double max_closing_price_ = 0., min_closing_price_ = 0.;
 public:
+    static const string name;
     MovingAvgStrategy(long short_period, long long_period);
     void updateIndicators(const OhlcDatum& datum);
     Sig genSignal(const OhlcDatum& datum);
     void resetState() {
-        prices_.clear();
-        volumes_.clear();
-        short_period_ = 0;
-        long_period_ = 0;
-        short_ma_ = 0.;
-        long_ma_ = 0.;
-        prev_short_ma_ = 0.;
-        prev_long_ma_ = 0.;
+        check_buy_ = false;     check_sell_ = false;
+        short_ma_ = 0.;         long_ma_ = 0.;
+        prev_short_ma_ = 0.;    prev_long_ma_ = 0.;
         for (int i = 0; i < 2; ++i) {
             golden_cross_inds_[i] = -1;
             death_cross_inds_[i] = -1;
@@ -48,9 +41,17 @@ public:
         max_closing_price_ = 0.;
         min_closing_price_ = 0.;
     }
-    static string getName() { return "MovingAvgStrategy"; };
+    string getName() final { return name; };
 private:
-    double findSma(long period);
+    // User-specified params
+    long short_period_, long_period_;
+    // Internally-managed state
+    bool check_buy_, check_sell_;
+    double short_ma_, long_ma_;
+    double prev_short_ma_, prev_long_ma_;
+    long golden_cross_inds_[2], death_cross_inds_[2];
+    double max_closing_price_, min_closing_price_;
 };
+
 
 #endif // STRATEGY_HPP

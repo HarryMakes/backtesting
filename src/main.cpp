@@ -14,7 +14,7 @@ int main(int argc, char* argv[]) {
     }
 
     static const vector<string> stratNames = {
-        MovingAvgStrategy::getName(),
+        MovingAvgStrategy::name,
     };
 
     try {
@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
         }
 
         unique_ptr<Strategy> strat;
-        if (strategy == MovingAvgStrategy::getName()) {
+        if (strategy == MovingAvgStrategy::name) {
             if (argc != 7) {
                 spdlog::error("Usage: ./backtesting <pair> <interval> <initial_cash> MovingAvgStrategy <short_period> <long_period>");
                 return 1;
@@ -40,6 +40,8 @@ int main(int argc, char* argv[]) {
             const long long_period(stol(argv[6]));
             strat = make_unique<MovingAvgStrategy>(short_period, long_period);
         }
+
+        spdlog::info("Using Strategy `{}'.", strat->getName());
 
         DataFetcher fetcher;
         fetcher.fetchOHLC(pair, interval);
