@@ -39,9 +39,9 @@ void Backtester::loadData(const string& pair, const string& interval) {
                  ohlc_data_.size(), pair, interval);
 }
 
-void Backtester::run(MovingAvgStrategy& strategy) {
+void Backtester::run(unique_ptr<Strategy>& strategy) {
     for (const auto& datum : ohlc_data_) {
-        auto sig = strategy.genSignal(datum);
+        auto sig = strategy->genSignal(datum);
         executeTrade(sig, datum);
         updatePortfolio(datum);
     }
@@ -55,13 +55,13 @@ void Backtester::executeTrade(const Sig& sig, const OhlcDatum& datum) {
         qty = cash_ / datum.close;
         position_ += qty;
         cash_ -= qty * datum.close;
-        spdlog::info("Buy: {:.4f} Qty at ${:.2f}, t={}", qty, datum.close, datum.time);
+        spdlog::info("Buy: {:.4f} Qty at ${:.2f}, at {}", qty, datum.close, epoch2localTime(datum.time));
     } else if (sig == Sig::Sell and position_ > 0.) {
         // Sell as much as possible
         qty = position_;
         cash_ += qty * datum.close;
         position_ -= qty;
-        spdlog::info("Sell: {:.4f} Qty at ${:.2f}, t={}", qty, datum.close, datum.time);
+        spdlog::info("Sell: {:.4f} Qty at ${:.2f}, at {}", qty, datum.close, epoch2localTime(datum.time));
     }
 }
 
@@ -76,7 +76,7 @@ void Backtester::updatePortfolio(const OhlcDatum& datum) {
 }
 
 void Backtester::logMetrics() const {
-    spdlog::info("Cash: {:.2f}, Position: {:.2f}, Final Closing Price: {:.2f}",
+    spdlog::info("Cash: {:.2f}, Position: {:.4f}, Final Closing Price: {:.4f}",
                  cash_, position_, ohlc_data_.rbegin()->close);
     const double mean_return = accumulate(returns_.begin(), returns_.end(), 0.) / returns_.size();
     double variance = 0.;

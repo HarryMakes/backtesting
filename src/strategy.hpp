@@ -17,7 +17,7 @@ public:
     virtual void updateIndicators(const OhlcDatum& datum) = 0;
     virtual Sig genSignal(const OhlcDatum& datum) = 0;
     virtual void resetState() {};
-    virtual string getName() const { return "BaseStrategy"; };
+    static string getName() { return "BaseStrategy"; };
 };
 
 class MovingAvgStrategy : public Strategy {
@@ -48,7 +48,7 @@ public:
         max_closing_price_ = 0.;
         min_closing_price_ = 0.;
     }
-    string getName() const { return "MovingAvgStrategy"; };
+    static string getName() { return "MovingAvgStrategy"; };
 private:
     double findSma(long period);
 };

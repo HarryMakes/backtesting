@@ -17,7 +17,7 @@ class Backtester {
 public:
     Backtester(double initial_cash);
     void loadData(const string& pair, const string& interval);
-    void run(MovingAvgStrategy& strategy);
+    void run(unique_ptr<Strategy>& strategy);
 private:
     void executeTrade(const Sig& sig, const OhlcDatum& datum);
     void updatePortfolio(const OhlcDatum& datum);
