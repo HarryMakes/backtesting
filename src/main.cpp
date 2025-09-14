@@ -15,6 +15,7 @@ int main(int argc, char* argv[]) {
 
     static const vector<string> stratNames = {
         MovingAvgStrategy::name,
+        WeinsteinStrategy::name,
     };
 
     try {
@@ -39,6 +40,17 @@ int main(int argc, char* argv[]) {
             const long short_period(stol(argv[5]));
             const long long_period(stol(argv[6]));
             strat = make_unique<MovingAvgStrategy>(short_period, long_period);
+        }
+        else if (strategy == WeinsteinStrategy::name) {
+            if (argc != 9) {
+                spdlog::error("Usage: ./backtesting <pair> <interval> <initial_cash> WeinsteinStrategy <short_period> <medium_period> <long_period> <volume_avg_period>");
+                return 1;
+            }
+            const long short_period(stol(argv[5]));
+            const long medium_period(stol(argv[6]));
+            const long long_period(stol(argv[7]));
+            const long volume_avg_period(stol(argv[8]));
+            strat = make_unique<WeinsteinStrategy>(short_period, medium_period, long_period, volume_avg_period);
         }
 
         spdlog::info("Using Strategy `{}'.", strat->getName());

@@ -2,6 +2,7 @@ message(STATUS "Building and installing library.")
 
 add_library(backtester
         STATIC common.cpp data_fetcher.cpp strategy.cpp backtester.cpp
+               zzindic/zigzag.c
 )
 
 set_target_properties(backtester PROPERTIES

@@ -1,8 +1,13 @@
 # HarryMakes' Backtesting -- *A Beginner's Backtesting Program*
 
-This project implements a trend-following trading strategy using 20-day and 50-day Simple Moving Averages (SMA) on [Kraken](https://pro.kraken.com/app/trade/) OHLC data.
+This project aims to perform backtesting on [Kraken](https://pro.kraken.com/app/trade/). It implements multiple trend-following trading strategies:
 
-## MovingAvgStrategy
+- `moving_avg`: Moving Averages
+- `weinstein`: Weinstein's Four Stage Analysis
+
+## `moving_avg`: Moving Averages
+
+This is a trend-following trading strategy using 20-day and 50-day Simple Moving Averages (SMA) on **Closing Price** data.
 
 ### Parameters
 
@@ -29,3 +34,62 @@ This project implements a trend-following trading strategy using 20-day and 50-d
 
 ### Why It Works
 The strategy filters noise by requiring a 3-month trend, confirms reversals with a mid-term cross, and validates trades with price breakouts, improving signal quality and capturing momentum in trending markets.
+
+## `weinstein`: Weinstein's Four Stage Analysis
+
+[TBD]
+
+---
+
+# Licence
+
+This project is to be licensed under **GNU General Public License v3.0**. See `LICENSE`.
+
+This project incorporates part of following program(s):
+
+- https://github.com/perlawk/zzindic \
+  ```text
+  /*
+    TTR: Technical Trading Rules
+
+    Copyright (C) 2007-2013  Joshua M. Ulrich
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+  ```
+
+- (Reference only) https://github.com/BatuhanUsluel/Algorithmic-Support-and-Resistance \
+  ```text
+  MIT License
+
+  Copyright (c) 2019 BatuhanU
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in all
+  copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  SOFTWARE.
+  ```
