@@ -13,6 +13,8 @@ add_executable(unit_tests
         test_data_fetcher.cpp
         test_strategy.cpp
 )
+include_directories(../lib/spdlog/include)
+include_directories(../lib/nlohmann_json/include)
 target_link_libraries(
         unit_tests
         PRIVATE backtester ${PROJECT_LIBS}

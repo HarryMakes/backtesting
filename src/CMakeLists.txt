@@ -20,7 +20,8 @@ message(STATUS "Building and installing main executable.")
 add_executable(backtesting
         main.cpp
 )
-
+include_directories(../lib/spdlog/include)
+include_directories(../lib/nlohmann_json/include)
 target_link_libraries(
         backtesting
         PUBLIC backtester ${PROJECT_LIBS}

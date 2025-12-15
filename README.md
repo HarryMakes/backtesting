@@ -41,6 +41,11 @@ The strategy filters noise by requiring a 3-month trend, confirms reversals with
 
 ---
 
+# How-to
+
+1. `cmake --preset debug`
+2. `cmake --build out/build/debug --target all --`
+
 # Licence
 
 This project is to be licensed under **GNU General Public License v3.0**. See `LICENSE`.

@@ -15,7 +15,7 @@ void DataFetcher::fetchOHLC(const string& pair, const string& interval, bool sto
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
     CURLcode ret = curl_easy_perform(curl);
     if (ret != CURLE_OK) {
-        spdlog::error("Curl returns {}", ret);
+        spdlog::error("Curl returns {}", (int)(ret));
     }
     curl_easy_cleanup(curl);
 
