@@ -26,3 +26,10 @@ target_link_libraries(
         backtesting
         PUBLIC backtester ${PROJECT_LIBS}
 )
+
+add_custom_command(TARGET backtesting POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:backtester>
+    $<TARGET_FILE_DIR:backtesting>
+    COMMENT "Copying dynamic libraries to executable directory"
+)

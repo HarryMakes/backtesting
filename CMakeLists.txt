@@ -12,6 +12,8 @@ enable_testing()
 include(FetchContent) # can be used with FetchContent_Declare if package (lib) is not installed system-wide
 
 find_package(CURL REQUIRED)
+
+set(SPDLOG_FMT_EXTERNAL OFF CACHE BOOL "Toggle using external fmt library" FORCE)
 add_subdirectory(lib/spdlog)
 add_subdirectory(lib/nlohmann_json)
 

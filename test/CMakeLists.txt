@@ -21,5 +21,12 @@ target_link_libraries(
         PUBLIC Catch2::Catch2 Catch2::Catch2WithMain
 )
 
+add_custom_command(TARGET unit_tests POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    $<TARGET_FILE:Catch2::Catch2>
+    $<TARGET_FILE:Catch2::Catch2WithMain>
+    $<TARGET_FILE_DIR:unit_tests>
+    COMMENT "Copying dynamic libraries to executable directory"
+)
 add_test(NAME test COMMAND unit_tests)
 

@@ -44,7 +44,7 @@ The strategy filters noise by requiring a 3-month trend, confirms reversals with
 # How-to
 
 1. `cmake --preset debug`
-2. `cmake --build out/build/debug --target all --`
+2. `cmake --build out/build/debug -j $(nproc) --target all --`
 
 # Licence
 
