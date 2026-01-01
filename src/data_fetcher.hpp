@@ -13,7 +13,7 @@ public:
     DataFetcher() = default;
     ~DataFetcher() {}
 
-    void fetchOHLC(const string& pair, const string& interval, bool save_json = false);
+    void fetchOHLC(const string& pair, const string& interval, const string& since, bool save_json = false);
 
     nlohmann::json* getJsonPtr() const {
         return json_p;

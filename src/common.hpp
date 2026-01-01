@@ -12,5 +12,6 @@ struct OhlcDatum {
 };
 
 string epoch2localTime(const long long& epoch);
+long long utcTime2epoch(const string& utc_time);
 
 #endif // COMMON_HPP

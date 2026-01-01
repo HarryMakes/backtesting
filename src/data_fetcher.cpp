@@ -2,13 +2,13 @@
 #include <curl/curl.h>
 #include <fstream>
 
-void DataFetcher::fetchOHLC(const string& pair, const string& interval, bool store_json) {
+void DataFetcher::fetchOHLC(const string& pair, const string& interval, const string& since, bool store_json) {
     CURL* curl = curl_easy_init();
     if (!curl) {
         spdlog::error("Cannot init curl");
         return;
     }
-    string url = "https://api.kraken.com/0/public/OHLC?pair=" + pair + "&interval=" + interval;
+    string url = "https://api.kraken.com/0/public/OHLC?pair=" + pair + "&interval=" + interval + "&since=" + since;
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     string response;
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);

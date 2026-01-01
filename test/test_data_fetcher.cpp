@@ -1,3 +1,4 @@
+#include <common.hpp>
 #include <data_fetcher.hpp>
 #include <catch2/catch_all.hpp>
 #include <iostream> //Debug only
@@ -7,8 +8,10 @@ TEST_CASE("DataFetcher::fetchOHLC fetches correct data for BTCUSD with interval 
 
     string pair{"XXBTZUSD"};
     string interval{"1440"};
+    string sinceUtcTime("20250831000000");
+    long long since = utcTime2epoch(sinceUtcTime);
 
-    dataFetcher.fetchOHLC(pair, interval, true);
+    dataFetcher.fetchOHLC(pair, interval, to_string(since), true);
     const auto json_p = dataFetcher.getJsonPtr();
 
     REQUIRE(json_p->size() > 0); // Ensure JSON data is not empty
