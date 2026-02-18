@@ -1,5 +1,6 @@
 #include "common.hpp"
 #include "backtester.hpp"
+#include "registry.hpp"
 #include <spdlog/sinks/stdout_color_sinks.h>
 using namespace std;
 
@@ -12,11 +13,6 @@ int main(int argc, char* argv[]) {
         spdlog::error("Usage: ./backtesting <pair> <interval> <sinceutc-YYYYMMDDhhmmss> <initial_cash> <strategy> [<strategy-args...>]");
         return 1;
     }
-
-    static const vector<string> stratNames = {
-        MovingAvgStrategy::name,
-        WeinsteinStrategy::name,
-    };
 
     try {
         const string pair(argv[1]);

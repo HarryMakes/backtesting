@@ -46,6 +46,14 @@ The strategy filters noise by requiring a 3-month trend, confirms reversals with
 1. `cmake --preset debug`
 2. `cmake --build out/build/debug -j $(nproc) --target all --`
 
+# Server how-to
+
+```bash
+curl -v -X POST http://localhost:8080/backtest \
+        -H "Content-Type: application/json" \
+        -d '{"pair":"BTCUSD","interval":"10080","since":"20251201000000","initial_cash":"10000","strategy":"moving_avg","short_period":"4","long_period":"10"}'
+```
+
 # Licence
 
 This project is to be licensed under **GNU General Public License v3.0**. See `LICENSE`.

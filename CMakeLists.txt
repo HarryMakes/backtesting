@@ -16,11 +16,13 @@ find_package(CURL REQUIRED)
 set(SPDLOG_FMT_EXTERNAL OFF CACHE BOOL "Toggle using external fmt library" FORCE)
 add_subdirectory(lib/spdlog)
 add_subdirectory(lib/nlohmann_json)
+add_subdirectory(lib/Crow)
 
 set(PROJECT_LIBS
         CURL::libcurl
         spdlog::spdlog
         nlohmann_json::nlohmann_json
+        Crow::Crow
 )
 
 include_directories(src)

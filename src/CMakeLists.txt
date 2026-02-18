@@ -27,6 +27,17 @@ target_link_libraries(
         PUBLIC backtester ${PROJECT_LIBS}
 )
 
+add_executable(backtesting_server
+        server.cpp
+)
+include_directories(../lib/spdlog/include)
+include_directories(../lib/nlohmann_json/include)
+include_directories(../lib/Crow/include)
+target_link_libraries(
+        backtesting_server
+        PUBLIC backtester ${PROJECT_LIBS}
+)
+
 add_custom_command(TARGET backtesting POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
     $<TARGET_FILE:backtester>
